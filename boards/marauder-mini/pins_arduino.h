@@ -4,106 +4,119 @@
 #include "soc/soc_caps.h"
 #include <stdint.h>
 
-#define USB_VID 0x303a
-#define USB_PID 0x1001
+// ===== ESP32 DevKit V4 (Classic) Pinout =====
+static const uint8_t TX = 1;
+static const uint8_t RX = 3;
+static const uint8_t SDA = 21;
+static const uint8_t SCL = 22;
 
-static const uint8_t TX = 43;
-static const uint8_t RX = 44;
+static const uint8_t SS = 5;
+static const uint8_t MOSI = 23;
+static const uint8_t MISO = 19;
+static const uint8_t SCK = 18;
 
-static const uint8_t TXD2 = 1;
-static const uint8_t RXD2 = 2;
+// ===== GPIO Aliases (ESP32 classic max GPIO39) =====
+static const uint8_t G0 = 0;   static const uint8_t G1 = 1;
+static const uint8_t G2 = 2;   static const uint8_t G3 = 3;
+static const uint8_t G4 = 4;   static const uint8_t G5 = 5;
+static const uint8_t G6 = 6;   static const uint8_t G7 = 7;
+static const uint8_t G8 = 8;   static const uint8_t G9 = 9;
+static const uint8_t G10 = 10; static const uint8_t G11 = 11;
+static const uint8_t G12 = 12; static const uint8_t G13 = 13;
+static const uint8_t G14 = 14; static const uint8_t G15 = 15;
+static const uint8_t G16 = 16; static const uint8_t G17 = 17;
+static const uint8_t G18 = 18; static const uint8_t G19 = 19;
+static const uint8_t G21 = 21; static const uint8_t G22 = 22;
+static const uint8_t G23 = 23; static const uint8_t G25 = 25;
+static const uint8_t G26 = 26; static const uint8_t G27 = 27;
+static const uint8_t G32 = 32; static const uint8_t G33 = 33;
+static const uint8_t G34 = 34; static const uint8_t G35 = 35;
+static const uint8_t G36 = 36; static const uint8_t G39 = 39;
 
-static const uint8_t SDA = 13;
-static const uint8_t SCL = 15;
+// ===== Bruce Firmware Specific =====
+#define HAS_SCREEN 1
+#define ROTATION 1
+#define MINBRIGHT 100
 
-// Modified elsewhere
-static const uint8_t SS = -1;
-static const uint8_t MOSI = -1;
-static const uint8_t MISO = -1;
-static const uint8_t SCK = -1;
+// ===== ST7735 128x160 =====
+#define TFT_CS    17
+#define TFT_DC    16
+#define TFT_RST   -1
+#define TFT_BL    32
+#define TFT_MOSI  23
+#define TFT_SCLK  18
+#define TFT_MISO  -1          // ⚠️ Write-only!
 
-static const uint8_t G0 = 0;
-static const uint8_t G1 = 1;
-static const uint8_t G2 = 2;
-static const uint8_t G3 = 3;
-static const uint8_t G4 = 4;
-static const uint8_t G5 = 5;
-static const uint8_t G6 = 6;
-static const uint8_t G7 = 7;
-static const uint8_t G8 = 8;
-static const uint8_t G9 = 9;
-static const uint8_t G10 = 10;
-static const uint8_t G11 = 11;
-static const uint8_t G12 = 12;
-static const uint8_t G13 = 13;
-static const uint8_t G14 = 14;
-static const uint8_t G15 = 15;
-static const uint8_t G39 = 39;
-static const uint8_t G40 = 40;
-static const uint8_t G41 = 41;
-static const uint8_t G42 = 42;
-static const uint8_t G43 = 43;
-static const uint8_t G44 = 44;
-static const uint8_t G46 = 46;
+// ===== SD Card (Shared SPI) =====
+#define SDCARD_CS    4
+#define SDCARD_SCK   18
+#define SDCARD_MISO  19
+#define SDCARD_MOSI  23
 
-static const uint8_t ADC1 = 7;
-static const uint8_t ADC2 = 8;
+// ===== CC1101 (Shared SPI) =====
+#define CC1101_GDO0_PIN 14
+#define CC1101_SS_PIN   5
+#define CC1101_MOSI_PIN 23
+#define CC1101_SCK_PIN  18
+#define CC1101_MISO_PIN 19
+#define CC1101_GDO2_PIN -1
 
-#define RGB_LED 21
+// ===== NRF24L01 (Shared SPI) =====
+#define NRF24_CE_PIN    2
+#define NRF24_SS_PIN    15
+#define NRF24_MOSI_PIN  23
+#define NRF24_SCK_PIN   18
+#define NRF24_MISO_PIN  19
 
-#define BAD_TX 21
-#define BAD_RX 22
+// ===== RFID RC522 (Shared SPI) =====
+#define RFID_SS_PIN     27
+#define RFID_RST_PIN    13
+#define RFID_IRQ_PIN    12
+#define RFID_MOSI_PIN   23
+#define RFID_SCK_PIN    18
+#define RFID_MISO_PIN   19
 
-// SERIAL (GPS) dedicated pins
-#define SERIAL_TX 21
-#define SERIAL_RX 22
-#define GPS_SERIAL_TX SERIAL_TX
-#define GPS_SERIAL_RX SERIAL_RX
+// ===== BadUSB CH9329 (Optional - Disable if not used) =====
+#define BAD_TX -1    // ⚠️ Set -1 kalau nggak pakai modul CH9329
+#define BAD_RX -1    // ⚠️ Set -1 kalau nggak pakai modul CH9329
+
+// ===== GPS Serial (UART1) =====
+//#define GPS_SERIAL_TX 22
+//#define GPS_SERIAL_RX 21
+
+// ===== Buttons (5-Way Navigation) =====
+
 #define HAS_BTN 1
-#define SEL_BTN 34
-#define UP_BTN 36
-#define DW_BTN 35
-#define R_BTN 39
-#define L_BTN 13
 #define HAS_5_BUTTONS
 #define BTN_ALIAS "\"Ok\""
+
+// Semua pin stabil + ada internal pullup
+#define SEL_BTN 21
+#define UP_BTN 22
+#define DW_BTN 25
+#define R_BTN 26
+#define L_BTN 33
+
 #define BTN_ACT LOW
 
-#define TXLED -1
-#define LED_ON HIGH
-#define LED_OFF LOW
+#define BTN_ACT LOW             // Active-low (button ke GND saat ditekan)
 
-#define CC1101_GDO0_PIN -1
-#define CC1101_SS_PIN -1
-#define CC1101_MOSI_PIN SPI_MOSI_PIN
-#define CC1101_SCK_PIN SPI_SCK_PIN
-#define CC1101_MISO_PIN SPI_MISO_PIN
-
-#define NRF24_CE_PIN -1
-#define NRF24_SS_PIN -1
-#define NRF24_MOSI_PIN SPI_MOSI_PIN
-#define NRF24_SCK_PIN SPI_SCK_PIN
-#define NRF24_MISO_PIN SPI_MISO_PIN
-
-#define FP 1
-#define FM 1
-#define FG 2
-
-#define HAS_SCREEN 1
-#define ROTATION 0
-#define MINBRIGHT 160
-
-#define SDCARD_CS 4
-#define SDCARD_SCK 18
-#define SDCARD_MISO 19
-#define SDCARD_MOSI 23
-
+// ===== I2C / Serial / GPS =====
 #define GROVE_SDA 33
 #define GROVE_SCL 26
+#define GPS_SERIAL_TX 22
+#define GPS_SERIAL_RX 21
 
-#define SPI_SCK_PIN 18
+// ===== SPI Global =====
+#define SPI_SCK_PIN  18
 #define SPI_MISO_PIN 19
 #define SPI_MOSI_PIN 23
-#define SPI_SS_PIN 1
+#define SPI_SS_PIN   5
 
-#endif /* Pins_Arduino_h */
+// ===== Font Size untuk ST7735 128x160 =====
+#define FM 1        // Font Medium: 1=kecil, 2=default, 3=besar
+#define FP 1        // Font Small: 1=paling kecil
+#define LW 6        // Letter Width multiplier (opsional)
+#define LH 8        // Letter Height multiplier (opsional)
+
+#endif
