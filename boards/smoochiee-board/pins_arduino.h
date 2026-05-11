@@ -68,7 +68,7 @@ static const uint8_t SCK = 18;
 #define TFT_WIDTH 240
 #define TFT_HEIGHT 240
 #define TFT_BACKLIGHT_ON 1
-#define TFT_BL 6
+#define TFT_BL 5
 #define TFT_RST 16
 #define TFT_DC 15
 #define TFT_MISO 8
