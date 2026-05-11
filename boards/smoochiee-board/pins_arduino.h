@@ -63,6 +63,7 @@ static const uint8_t SCK = 18;
 
 #define USER_SETUP_LOADED 1
 #define ST7789_DRIVER 1
+#define TFT_INVERSION_ON
 #define TFT_RGB_ORDER 0
 #define TFT_WIDTH 240
 #define TFT_HEIGHT 240
