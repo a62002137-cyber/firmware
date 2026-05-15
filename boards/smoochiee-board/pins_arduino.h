@@ -103,11 +103,11 @@ static const uint8_t SCK = 18;    // Shared clock
 #define TFT_HEIGHT 320        // Resolusi asli ILI9341 2.4"
 
 #define TFT_BACKLIGHT_ON HIGH
-#define TFT_BL 4              //  GPIO 4 (Backlight)
+#define TFT_BL 4              // GPIO 4 (Backlight)
 
 // 🔒 PIN MAPPING TFT (SESUAI WIRING AWAL ISSUE)
 #define TFT_RST  17           // 🔒 GPIO 17
-#define TFT_DC   16           //  GPIO 16
+#define TFT_DC   16           // 🔒 GPIO 16
 #define TFT_CS    5           // 🔒 GPIO 5
 
 // 🔒 SPI PINS (SHARED DENGAN TOUCH/RF/SD)
@@ -164,7 +164,7 @@ static const uint8_t SCK = 18;    // Shared clock
 // Power Management (PMU BQ25896) - ENABLED
 // =====================================
 #define XPOWERS_CHIP_BQ25896
-#define USE_BOOST
+// #define USE_BOOST              // ❌ DIHAPUS: udah ada di build_flags (.ini)
 // I2C address: 0x6B (handled by library)
 
 // =====================================
@@ -179,8 +179,8 @@ static const uint8_t SCK = 18;    // Shared clock
 // Menggunakan I2C bus (SDA=8, SCL=9), address 0x58
 // Pin di bawah adalah LOGICAL PIN di chip expander, BUKAN GPIO ESP32
 // =====================================
-#define USE_IO_EXPANDER
-#define IO_EXPANDER_AW9523
+// #define USE_IO_EXPANDER        // ❌ DIHAPUS: udah ada di build_flags (.ini)
+// #define IO_EXPANDER_AW9523     // ❌ DIHAPUS: udah ada di build_flags (.ini)
 #define IO_EXP_GPS  0
 #define IO_EXP_MIC  1
 #define IO_EXP_VIBRO 2
